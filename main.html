@@ -21,9 +21,13 @@
       </div>      
     </header>
     <div class="well" id="main">
-      {{> ratingForm}}
-      {{> ratingsList}}
-      {{> notificationTest}}
+      {{#if user}}
+        {{> ratingForm}}
+        {{> ratingsList}}
+        {{> notificationTest}}
+      {{else}}
+        {{> loginButtons}}
+      {{/if}}
     </div>
   </div>
 </body>
