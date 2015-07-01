@@ -1,0 +1,13 @@
+/* CSS declarations go here */
+
+.slider {
+   background-color: #fff;
+}
+
+#tooltip_min {
+   display: none;
+}
+
+#tooltip_max {
+   display: none;
+}

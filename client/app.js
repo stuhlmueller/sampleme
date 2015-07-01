@@ -2,13 +2,20 @@ _.extend(App, {
 });
 
 App.helpers = {
-  showForm: function() {
+  showNotificationForm: function() {
     return (Meteor.user() && !Meteor.isCordova);
+  },
+  showRatingForm: function() {
+    return (Meteor.user() && Meteor.isCordova);
   }
 };
 
 _.each(App.helpers, function (helper, key) {
   Handlebars.registerHelper(key, helper);
+});
+
+Template.notificationForm.onRendered(function(){
+  $('.slider').slider();
 });
 
 Template.notificationForm.events({
@@ -23,6 +30,21 @@ Template.notificationForm.events({
 	}
       }
     });
+  }
+});
+
+Template.ratingForm.events({
+  'submit form': function(e) {
+    e.preventDefault();
+
+    var rating = {
+      value: $("#rating").slider('getValue'),
+      timestamp: new Date()
+    };
+    alert(JSON.stringify(rating));
+
+    // post._id = Posts.insert(post);
+    // Router.go('postPage', post);
   }
 });
 

@@ -5,14 +5,26 @@
   <div class="container">
     <header class="navbar navbar-default" role="navigation"> 
       <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>        
+        </button>        
         <a class="navbar-brand" href="/">SampleMe</a>
       </div>
+      <div class="collapse navbar-collapse" id="navigation">
+        <ul class="nav navbar-nav navbar-right">
+          {{> loginButtons}}
+        </ul>
+      </div>      
     </header>
     <div class="well" id="main">
-      {{> loginButtons}}
-      {{#if showForm}}
+      {{#if showNotificationForm}}
         {{> notificationForm}}
-      {{/if}}      
+      {{/if}}
+
+      {{> ratingForm}}
     </div>
   </div>
 </body>
@@ -22,5 +34,13 @@
     <input type="text" data-field="title" placeholder="Title">
     <input type="text" data-field="message" placeholder="Message">
     <button data-action="send-notification">Send</button>
+  </form>
+</template>
+
+<template name="ratingForm">
+  <form>
+    <p>How are you feeling?</p>
+    <input id="rating" name="rating" type="text" class="slider" value="" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="5" data-slider-orientation="horizontal">
+    <input type="submit" value="Submit" class="btn btn-primary"/>
   </form>
 </template>
