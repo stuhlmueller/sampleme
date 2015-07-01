@@ -20,11 +20,9 @@
       </div>      
     </header>
     <div class="well" id="main">
-      {{#if showNotificationForm}}
-        {{> notificationForm}}
-      {{/if}}
-
       {{> ratingForm}}
+
+      {{> ratingsList}}
     </div>
   </div>
 </body>
@@ -38,9 +36,22 @@
 </template>
 
 <template name="ratingForm">
-  <form>
-    <p>How are you feeling?</p>
-    <input id="rating" name="rating" type="text" class="slider" value="" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="5" data-slider-orientation="horizontal">
-    <input type="submit" value="Submit" class="btn btn-primary"/>
+  <form role="form">
+    <div class="form-group">
+      <label for="rating">How are you feeling?</label><br>
+      <input id="rating" name="rating" type="text" class="slider" value="" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="5" data-slider-orientation="horizontal"><br>
+      <input type="submit" value="Submit" class="btn btn-primary"/>
+    </div>
   </form>
+</template>
+
+<template name="ratingsList">
+  <div>
+    <h3>Ratings</h3>
+    <ul>
+      {{#each ratings}}
+        <li>{{timestamp}} - {{value}}</li>
+      {{/each}}      
+    </ul>
+  </div>
 </template>

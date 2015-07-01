@@ -39,12 +39,19 @@ Template.ratingForm.events({
 
     var rating = {
       value: $("#rating").slider('getValue'),
-      timestamp: new Date()
+      timestamp: new Date(),
+      userId: Meteor.user()._id
     };
-    alert(JSON.stringify(rating));
+    rating._id = Ratings.insert(rating);
 
-    // post._id = Posts.insert(post);
+    $("#rating").slider();
     // Router.go('postPage', post);
+  }
+});
+
+Template.ratingsList.helpers({
+  ratings: function(){
+    return Ratings.find({}, {sort: {timestamp: -1}});
   }
 });
 
