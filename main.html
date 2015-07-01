@@ -1,26 +1,67 @@
 <head>
   <title>SampleMe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
   <div class="container">
-    <header class="navbar navbar-default" role="navigation"> 
+    <header id="header" class="navbar navbar-default" role="navigation"> 
       <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>        
+        </button>        
         <a class="navbar-brand" href="/">SampleMe</a>
       </div>
+      <div class="collapse navbar-collapse" id="navigation">
+        <ul class="nav navbar-nav navbar-right">
+          {{> loginButtons}}
+        </ul>
+      </div>      
     </header>
     <div class="well" id="main">
-      {{> loginButtons}}
-      {{#if showForm}}
-        {{> notificationForm}}
-      {{/if}}      
+      {{#if user}}
+        {{> ratingForm}}
+        {{> ratingsList}}
+        {{> notificationTest}}
+      {{else}}
+        {{> loginButtons}}
+      {{/if}}
     </div>
   </div>
 </body>
 
-<template name="notificationForm">
-  <form>
-    <input type="text" data-field="title" placeholder="Title">
-    <input type="text" data-field="message" placeholder="Message">
-    <button data-action="send-notification">Send</button>
+<template name="ratingForm">
+  <form role="form">
+    <div class="form-group">
+      <label for="rating">How are you feeling?</label><br>
+      <input id="rating" name="rating" type="text" class="slider" value="" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="5" data-slider-orientation="horizontal"><br>
+      <input type="submit" value="Submit" class="btn btn-primary"/>
+    </div>
   </form>
+</template>
+
+<template name="ratingsList">
+  <div>
+    <h3>Ratings</h3>
+    <ul>
+      {{#each ratings}}
+        {{> ratingItem}}
+      {{/each}}      
+    </ul>
+  </div>
+</template>
+
+<template name="ratingItem">
+  <li>{{moFromNow timestamp}} - {{value}}</li>
+</template>
+
+<template name="notificationTest">
+  <div>
+    <h3>Delayed notifications</h3>  
+    <form>
+      <button data-action="send-notification">Send</button>
+    </form>
+  </div>
 </template>

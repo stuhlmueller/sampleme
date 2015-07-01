@@ -1,0 +1,18 @@
+/* CSS declarations go here */
+
+.slider {
+   background-color: #fff;
+   margin-top: 2em;
+}
+
+#tooltip_min {
+   display: none;
+}
+
+#tooltip_max {
+   display: none;
+}
+
+#header {
+   margin-bottom: 0
+}
