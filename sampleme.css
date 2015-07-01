@@ -1,8 +1,7 @@
-/* CSS declarations go here */
-
 .slider {
    background-color: #fff;
    margin-top: 2em;
+   margin-bottom: 2em;
 }
 
 #tooltip_min {
@@ -13,6 +12,20 @@
    display: none;
 }
 
-#header {
+#header, #main {
    margin-bottom: 0
+}
+
+#footer {
+   background-color: #009688;
+   color: #fff
+}
+
+#footer a {
+   color: #fff
+}
+
+div#rating-form-group {
+  text-align: center;
+  line-height: 4em;
 }

@@ -2,8 +2,9 @@
   <title>SampleMe</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
-  <div class="container">
+  
+<template name="layout">
+  <div class="container main-container">
     <header id="header" class="navbar navbar-default" role="navigation"> 
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
@@ -20,21 +21,35 @@
         </ul>
       </div>      
     </header>
-    <div class="well" id="main">
-      {{#if user}}
-        {{> ratingForm}}
-        {{> ratingsList}}
-        {{> notificationTest}}
-      {{else}}
-        {{> loginButtons}}
-      {{/if}}
+    <div id="main" class="well">
+      {{> yield}}
     </div>
+    <div id="footer" class="well">
+      <p class="text-center"><a href="{{pathFor 'sampler'}}">Sampler</a> | <a href="{{pathFor 'dashboard'}}">Dashboard</a></p>
+    </div>    
   </div>
-</body>
+</template>
+
+<template name="dashboard">
+  {{#if user}}
+    {{> ratingsList}}
+    {{> notificationTest}}
+  {{else}}
+    {{> loginButtons}}
+  {{/if}}
+</template>
+
+<template name="sampler">
+  {{#if user}}
+    {{> ratingForm}}
+  {{else}}
+    {{> loginButtons}}
+  {{/if}}  
+</template>
 
 <template name="ratingForm">
   <form role="form">
-    <div class="form-group">
+    <div id="rating-form-group" class="form-group">
       <label for="rating">How are you feeling?</label><br>
       <input id="rating" name="rating" type="text" class="slider" value="" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="5" data-slider-orientation="horizontal"><br>
       <input type="submit" value="Submit" class="btn btn-primary"/>
