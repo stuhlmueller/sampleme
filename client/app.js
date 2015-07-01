@@ -1,16 +1,28 @@
-// counter starts at 0
-Session.setDefault('counter', 0);
-
-Template.hello.helpers({
-  counter: function () {
-    return Session.get('counter');
-  }
+_.extend(App, {
 });
 
-Template.hello.events({
-  'click button': function () {
-    // increment the counter when button is clicked
-    Session.set('counter', Session.get('counter') + 1);
+App.helpers = {
+  showForm: function() {
+    return (Meteor.user() && !Meteor.isCordova);
+  }
+};
+
+_.each(App.helpers, function (helper, key) {
+  Handlebars.registerHelper(key, helper);
+});
+
+Template.form.events({
+  'click [data-action="send-notification"], submit': function (event, template) {
+    event.preventDefault();
+    Meteor.call('notify', template.$('[data-field="title"]').val(), template.$('[data-field="message"]').val(), function(err, res) {
+      if (err) {
+	console.log(err);
+      } else {
+	if (res.userCount) {
+	  alert('Notification sent.');
+	}
+      }
+    });
   }
 });
 

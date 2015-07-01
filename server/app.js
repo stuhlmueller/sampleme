@@ -1,12 +1,10 @@
-// Meteor.methods({
-//   'notify': function(title, message) {
-//     return App.notificationClient.sendNotification(this.userId, {
-//       title: title,
-//       message: message
-//     });
-//   }
-// });
+// Server-side method for sending notifications
 
-// Meteor.startup(function () {
-//   // code to run on server at startup
-// });
+Meteor.methods({
+  'notify': function(title, message) {
+    return App.notificationClient.sendNotification(this.userId, {
+      title: title,
+      message: message
+    });
+  }
+});
