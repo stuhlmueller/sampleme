@@ -10,8 +10,9 @@ var timeMax = 10
 
 
 var utility = function(q) {
-    //term for asking sooner:
-    var timeU = q.time - timeNow
+    //term for asking sooner, arbitrarily quadratic:
+    //(is there a way to derive a sane rule based on opportunity cost?)
+    var timeU = - (q.time - timeNow)*(q.time - timeNow)
     
     //term for predictive uncertainty:
     var uncU = model(data, q)
