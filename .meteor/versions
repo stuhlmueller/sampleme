@@ -27,6 +27,7 @@ insecure@1.0.3
 jquery@1.11.3_2
 json@1.0.3
 launch-screen@1.0.2
+lbee:moment-helpers@1.0.0
 livedata@1.0.13
 localstorage@1.0.3
 logging@1.0.7
@@ -38,6 +39,7 @@ minimongo@1.0.8
 mizzao:timesync@0.2.2
 mizzao:user-status@0.6.3
 mobile-status-bar@1.0.3
+momentjs:moment@2.10.3
 mongo@1.1.0
 npm-bcrypt@0.7.8_2
 observe-sequence@1.0.6

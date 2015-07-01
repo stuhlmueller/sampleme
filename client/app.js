@@ -18,18 +18,24 @@ Template.ratingForm.onRendered(function(){
   $('.slider').slider();
 });
 
-Template.notificationForm.events({
+Template.notificationTest.events({
   'click [data-action="send-notification"], submit': function (event, template) {
     event.preventDefault();
-    Meteor.call('notify', template.$('[data-field="title"]').val(), template.$('[data-field="message"]').val(), function(err, res) {
-      if (err) {
-	console.log(err);
-      } else {
-	if (res.userCount) {
-	  alert('Notification sent.');
-	}
-      }
-    });
+    var title = "SampleMe"; // template.$('[data-field="title"]').val()
+    var message = "Hey, it's time to check in!"; // template.$('[data-field="message"]').val()
+    var delay = 10 * 1000;
+    setTimeout(
+      function(){
+        Meteor.call('notify', title, message, function(err, res) {
+          if (err) {
+	    console.log(err);
+          } else {
+	    if (res.userCount) {
+	      console.log('Notification sent.');
+	    }
+          }
+        });
+      }, delay);
   }
 });
 

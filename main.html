@@ -22,19 +22,11 @@
     </header>
     <div class="well" id="main">
       {{> ratingForm}}
-
       {{> ratingsList}}
+      {{> notificationTest}}
     </div>
   </div>
 </body>
-
-<template name="notificationForm">
-  <form>
-    <input type="text" data-field="title" placeholder="Title">
-    <input type="text" data-field="message" placeholder="Message">
-    <button data-action="send-notification">Send</button>
-  </form>
-</template>
 
 <template name="ratingForm">
   <form role="form">
@@ -51,8 +43,21 @@
     <h3>Ratings</h3>
     <ul>
       {{#each ratings}}
-        <li>{{timestamp}} - {{value}}</li>
+        {{> ratingItem}}
       {{/each}}      
     </ul>
+  </div>
+</template>
+
+<template name="ratingItem">
+  <li>{{moFromNow timestamp}} - {{value}}</li>
+</template>
+
+<template name="notificationTest">
+  <div>
+    <h3>Delayed notifications</h3>  
+    <form>
+      <button data-action="send-notification">Send</button>
+    </form>
   </div>
 </template>
