@@ -1,7 +1,49 @@
-var sigma = 1000
+// webppl detectChanges.wppl
+
+// from Lee & Wagenmakers 5.4: Change detection in time series data
+
+var data = {
+	0: 4,
+	1: 5,
+	2: 5,
+	3: 8,
+	4: 9,
+	5: 8
+}
+
+// var data2 = {
+// 	time: [0,1,2,3,4,5],
+// 	responses: [4,5,5,7,9,8]
+// }
+
+var sigma = 10
+var t_max = _.max(_.keys(data))
 
 var model = function(){
+	// unknown means at time1 and time2
 	var mu_1 = gaussian(0, sigma)
 	var mu_2 = gaussian(0, sigma)
+	// precision (inverse variance) of data points
+	// this samples *dangerously* close to 0, if you get "false==true" error, increase the parameter values
+	var lambda = gamma(0.05,0.05)
+	// time of change
+	var tau = uniform(0,t_max)
 
+	var score = reduce(function(timePoint, memo){
+	// if before time change, data comes from mu1, otherwise mu2
+		var mu = (timePoint >= tau) ? mu_1 : mu_2
+		return memo + gaussianERP.score([mu, 1/Math.sqrt(lambda)], data[timePoint])
+	}, 0, _.keys(data))
+
+	factor(score)
+
+//	return [tau, mu_1, mu_2]
+	return tau
 }
+
+
+
+var posterior = MH(model, 10000)
+expectation(posterior)
+
+// MH(model(data), 100)
