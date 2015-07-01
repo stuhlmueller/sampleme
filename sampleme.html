@@ -1,12 +1,19 @@
 <head>
-  <title>sampleme</title>
+  <title>SampleMe</title>
 </head>
-
 <body>
-  <h1>sampleme</h1>
-
-  {{> hello}}
+  <div class="container">
+    <header class="navbar navbar-default" role="navigation"> 
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">SampleMe</a>
+      </div>
+    </header>
+    <div class="well" id="main">
+      {{> hello}}
+    </div>
+  </div>
 </body>
+
 
 <template name="hello">
   <button class="btn btn-default btn-raised">Click Me</button>
