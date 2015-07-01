@@ -11,7 +11,7 @@ _.each(App.helpers, function (helper, key) {
   Handlebars.registerHelper(key, helper);
 });
 
-Template.form.events({
+Template.notificationForm.events({
   'click [data-action="send-notification"], submit': function (event, template) {
     event.preventDefault();
     Meteor.call('notify', template.$('[data-field="title"]').val(), template.$('[data-field="message"]').val(), function(err, res) {
