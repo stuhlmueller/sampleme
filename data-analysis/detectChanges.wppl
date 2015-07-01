@@ -1,0 +1,7 @@
+var sigma = 1000
+
+var model = function(){
+	var mu_1 = gaussian(0, sigma)
+	var mu_2 = gaussian(0, sigma)
+
+}
