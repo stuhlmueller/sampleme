@@ -1,49 +1,174 @@
 // webppl detectChanges.wppl
 
-// from Lee & Wagenmakers 5.4: Change detection in time series data
+// adapted from Lee & Wagenmakers 5.4: Change detection in time series data
 
 var data = {
-	0: 4,
-	1: 5,
-	2: 5,
-	3: 8,
-	4: 9,
-	5: 8
+	0:1,
+	1:1.1,
+	2:1,
+	3:1.1,
+	4:0.7,
+	5:3
 }
 
-// var data2 = {
-// 	time: [0,1,2,3,4,5],
-// 	responses: [4,5,5,7,9,8]
-// }
+var variance = function(myERP){
+	return expectation(myERP, function(x){return Math.pow(x,2)}) - Math.pow(expectation(myERP),2)
+}
+
+var marginalizeERP = function(myERP, index){
+	Enumerate(function(){
+		return sample(myERP)[index]
+	})
+}
+
+var unseenData = {
+	6: null,
+	7: null, 
+	8: null,
+	9: null,
+	10: null
+}
 
 var sigma = 10
-var t_max = _.max(_.keys(data))
+var t_max = 10
+
+
 
 var model = function(){
-	// unknown means at time1 and time2
+	// unknown means at epoch1 and epoch2 and epoch3
 	var mu_1 = gaussian(0, sigma)
 	var mu_2 = gaussian(0, sigma)
+	// var mu_3 = gaussian(0, sigma)
 	// precision (inverse variance) of data points
 	// this samples *dangerously* close to 0, if you get "false==true" error, increase the parameter values
-	var lambda = gamma(0.05,0.05)
+//	var lambda = gamma(0.05,0.05)
+	var lambda = 1
 	// time of change
-	var tau = uniform(0,t_max)
+	var tau_1 = uniform(0,t_max)
+	// exponential(lambda)
+	// var tau_2 = uniform(tau_1, t_max)//tau_1 + exponential(lambda)
+	//
+
+	// var score = reduce(function(timePoint, memo){
+	// // if before time change, data comes from mu1, otherwise mu2
+	// 	var mu = (timePoint >= tau_1) ? 
+	// 						(timePoint >= tau_2) ? 	mu_3 : 
+	// 												mu_2 :
+	// 												mu_1
+	// 	return memo + gaussianERP.score([mu, 
+	// 								1/Math.sqrt(lambda)], data[timePoint])
+	// }, 0, _.keys(data))
 
 	var score = reduce(function(timePoint, memo){
 	// if before time change, data comes from mu1, otherwise mu2
-		var mu = (timePoint >= tau) ? mu_1 : mu_2
-		return memo + gaussianERP.score([mu, 1/Math.sqrt(lambda)], data[timePoint])
+		var mu = (timePoint >= tau_1) ? mu_2 :
+													mu_1
+		return memo + gaussianERP.score([mu, 
+									1/Math.sqrt(lambda)], data[timePoint])
 	}, 0, _.keys(data))
 
+
+	// console.log(score)
 	factor(score)
 
-//	return [tau, mu_1, mu_2]
-	return tau
+	// var posteriorPredictive = map(function(timePoint){
+	// 	var mu = (timePoint >= tau_1) ? 
+	// 						(timePoint >= tau_2) ? 	mu_3 : 
+	// 												mu_2 :
+	// 												mu_1
+	// 	return gaussian(mu, 1/Math.sqrt(lambda))
+	// }, _.keys(unseenData))
+
+	var posteriorPredictive = map(function(timePoint){
+		var mu = (timePoint >= tau_1) ?  mu_2 : mu_1
+		return gaussian(mu, 1/Math.sqrt(lambda))
+	}, _.keys(unseenData))
+
+	// return [[tau_1, tau_2, mu_1, mu_2, mu_3], posteriorPredictive]
+	return [[tau_1,  mu_1, mu_2], posteriorPredictive]
+
+//	return posteriorPredictive
+	// return tau
 }
 
 
+var posteriorERP = MH(model, 100000, 10000, true)
 
-var posterior = MH(model, 10000)
-expectation(posterior)
+var parametersERP = marginalizeERP(posteriorERP,0)
+var predictiveERP = marginalizeERP(posteriorERP,1)
 
-// MH(model(data), 100)
+
+// console.log("expected time of change 1: " + expectation(marginalizeERP(parametersERP,0)))
+// console.log("expected time of change 2: " + expectation(marginalizeERP(parametersERP,1)))
+// console.log("mean of epoch 1: " + expectation(marginalizeERP(parametersERP,2)))
+// console.log("mean of epoch 2: " + expectation(marginalizeERP(parametersERP,3)))
+// console.log("mean of epoch 3: " + expectation(marginalizeERP(parametersERP,4)))
+
+
+
+// console.log("entropy on time 6: " + entropy(marginalizeERP(predictiveERP, 0)))
+// console.log("entropy on time 7: " + entropy(marginalizeERP(predictiveERP, 1)))
+// console.log("entropy on time 8: " + entropy(marginalizeERP(predictiveERP, 2)))
+// console.log("entropy on time 9: " + entropy(marginalizeERP(predictiveERP, 3)))
+// console.log("entropy on time 10: " + entropy(marginalizeERP(predictiveERP, 4)))
+// console.log("expectation on time 6: " + expectation(marginalizeERP(predictiveERP, 0)))
+// console.log("expectation on time 7: " + expectation(marginalizeERP(predictiveERP, 1)))
+// console.log("expectation on time 8: " + expectation(marginalizeERP(predictiveERP, 2)))
+// console.log("expectation on time 9: " + expectation(marginalizeERP(predictiveERP, 3)))
+// console.log("expectation on time 10: " + expectation(marginalizeERP(predictiveERP, 4)))
+
+
+console.log("expected time of change 1: " + expectation(marginalizeERP(parametersERP,0)))
+console.log("mean of epoch 1: " + expectation(marginalizeERP(parametersERP,1)))
+console.log("mean of epoch 2: " + expectation(marginalizeERP(parametersERP,2)))
+
+
+console.log("variance on time 6: " + variance(marginalizeERP(predictiveERP, 0)))
+console.log("variance on time 7: " + variance(marginalizeERP(predictiveERP, 1)))
+console.log("variance on time 8: " + variance(marginalizeERP(predictiveERP, 2)))
+console.log("variance on time 9: " + variance(marginalizeERP(predictiveERP, 3)))
+console.log("variance on time 10: " + variance(marginalizeERP(predictiveERP, 4)))
+console.log("expectation on time 6: " + expectation(marginalizeERP(predictiveERP, 0)))
+console.log("expectation on time 7: " + expectation(marginalizeERP(predictiveERP, 1)))
+console.log("expectation on time 8: " + expectation(marginalizeERP(predictiveERP, 2)))
+console.log("expectation on time 9: " + expectation(marginalizeERP(predictiveERP, 3)))
+console.log("expectation on time 10: " + expectation(marginalizeERP(predictiveERP, 4)))
+
+
+
+
+
+
+// map(
+	// function(x){return posterior.support()[0][x]},
+	// _.keys(posterior.support()[0]))
+
+// var munged = _.flatten(map(function(s){
+// 		return map(function(k){
+// 			return [k, s[k], Math.exp(posterior.score([],s))]
+// 		}, _.keys(s))
+// 	},posterior.support()),true)
+
+
+// // munged
+// var sortedPosteriorPredictive = _.object(
+// 	map(function(t){
+// 			return [t, filter(function(lst){return lst[0]==t},
+// 						munged)]
+// 		}, _.keys(unseenData)))
+
+
+// sortedPosteriorPredictive
+
+
+
+// var getVariance = function(pp, key){
+// 	return pp[key]
+// }
+
+// getVariance(sortedPosteriorPredictive,6)
+
+// munged
+// sort(munged, lt, function(lst){return global.parseFloat(lst[0])})
+
+
