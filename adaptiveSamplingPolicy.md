@@ -27,6 +27,8 @@ Whatever model we are using for sampling decisions can also be used for data ana
 
 How does the above decision of whether to ask at each time step relate to the decision of how long to wait? It would probably be better to transform the information seeking actions into how long to wait and which question to ask next. Doing this in the general case seems hard…
 
+One fancy option may be to use continuous time models, but I think this is overkill. A simpler option would be to uniformly sample some proposed question+times and then evaluate their uncertainty or information gain, choosing from this fixed set. Is this equivalent to the full thing against some model class?
+
 
 # Other notes
 
