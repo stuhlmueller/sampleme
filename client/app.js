@@ -2,12 +2,7 @@ _.extend(App, {
 });
 
 App.helpers = {
-  showNotificationForm: function() {
-    return (Meteor.user() && !Meteor.isCordova);
-  },
-  showRatingForm: function() {
-    return (Meteor.user() && Meteor.isCordova);
-  }
+  user: function(){return Meteor.user();}
 };
 
 _.each(App.helpers, function (helper, key) {
@@ -57,7 +52,8 @@ Template.ratingForm.events({
 
 Template.ratingsList.helpers({
   ratings: function(){
-    return Ratings.find({}, {sort: {timestamp: -1}});
+    return Ratings.find({userId: Meteor.user()._id},
+                        {sort: {timestamp: -1}});
   }
 });
 
