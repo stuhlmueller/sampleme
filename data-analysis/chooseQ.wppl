@@ -27,10 +27,5 @@ var Qs = repeat(function(){
                 },
                 numCandidates)
 
-//compute the utility of asking these questions:
-Us = map(utility, Qs)
-
-
 //choose a question to ask, currently the maximum utility... should this be a stochastic policy?
-
-max(Us)//FIXME: find Qs with max Us
+maxWith(Qs, utility)
