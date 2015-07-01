@@ -1,23 +1,27 @@
-if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
+// _.extend(App, {
+// });
 
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
-    }
-  });
+// App.helpers = {
+//   showForm: function() {
+//     return (Meteor.user() && !Meteor.isCordova);
+//   }
+// };
 
-  Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-    }
-  });
-}
+// _.each(App.helpers, function (helper, key) {
+//   Handlebars.registerHelper(key, helper);
+// });
 
-if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
-  });
-}
+// Template.form.events({
+//   'click [data-action="send-notification"], submit': function (event, template) {
+//     event.preventDefault();
+//     Meteor.call('notify', template.$('[data-field="title"]').val(), template.$('[data-field="message"]').val(), function(err, res) {
+//       if (err) {
+// 	console.log(err);
+//       } else {
+// 	if (res.userCount) {
+// 	  alert('Notification sent.');
+// 	}
+//       }
+//     });
+//   }
+// });

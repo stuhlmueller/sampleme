@@ -8,3 +8,6 @@ meteor-platform
 autopublish
 insecure
 fezvrasta:bootstrap-material-design
+richsilv:cordova-notifications
+ian:accounts-ui-bootstrap-3
+accounts-password

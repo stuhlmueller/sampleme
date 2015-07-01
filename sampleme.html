@@ -9,6 +9,7 @@
       </div>
     </header>
     <div class="well" id="main">
+      {{> loginButtons}}
       {{> hello}}
     </div>
   </div>
@@ -18,4 +19,12 @@
 <template name="hello">
   <button class="btn btn-default btn-raised">Click Me</button>
   <p>You've pressed the button {{counter}} times.</p>
+</template>
+
+<template name="notification-form">
+  <form>
+    <input type="text" data-field="title" placeholder="Title">
+    <input type="text" data-field="message" placeholder="Message">
+    <button data-action="send-notification">Send</button>
+  </form>
 </template>
