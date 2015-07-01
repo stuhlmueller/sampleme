@@ -14,7 +14,7 @@ _.each(App.helpers, function (helper, key) {
   Handlebars.registerHelper(key, helper);
 });
 
-Template.notificationForm.onRendered(function(){
+Template.ratingForm.onRendered(function(){
   $('.slider').slider();
 });
 
