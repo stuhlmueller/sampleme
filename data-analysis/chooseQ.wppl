@@ -1,0 +1,32 @@
+
+
+//assume that the model takes a data set and a candidate question (time and perhaps question) and returns some number representing the uncertainty of the posterior predictive for each question.
+//FIXME: more efficient so don't evaluate model separately for each candidate Q?
+
+var numCandidates = 10
+var timeNow = 0
+var timeMax = 10
+
+
+
+var utility = function(q) {
+    //term for asking sooner, arbitrarily quadratic:
+    //(is there a way to derive a sane rule based on opportunity cost?)
+    var timeU = - (q.time - timeNow)*(q.time - timeNow)
+    
+    //term for predictive uncertainty:
+    var uncU = model(data, q)
+    
+    //other terms? don't ask too often? other?
+    
+    return timeU + uncU
+}
+
+//sample some questions (times) to consider asking:
+var Qs = repeat(function(){
+                return {time: timeNow + uniform(0,timeMax)}
+                },
+                numCandidates)
+
+//choose a question to ask, currently the maximum utility... should this be a stochastic policy?
+maxWith(Qs, utility)
