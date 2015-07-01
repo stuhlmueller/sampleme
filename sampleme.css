@@ -29,3 +29,8 @@ div#rating-form-group {
   text-align: center;
   line-height: 4em;
 }
+
+img.logo {
+  height: 130%;
+  margin-top: -3px;   
+}
