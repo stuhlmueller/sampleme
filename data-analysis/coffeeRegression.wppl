@@ -23,17 +23,25 @@ var coffeeEvents = [
 {time: 4, dose: 0}
 ]
 
+
+var marginalizeERP = function(myERP, index){
+    Enumerate(function(){
+        return sample(myERP)[index]
+    })
+}
+
 var target = function(coffeeEvents, moodMeasures) {
     
-    // var shape = gamma(0.05,0.05)
-    // var scale = gamma(0.05,0.05)
-    var shape = 1
-    var scale = 1
+    var shape = gamma(0.05,0.05)
+    var scale = gamma(0.05,0.05)
+    // var shape = 1
+    // var scale = 1
     
     var coffeeKernel = function(coffeeEvent, time) {
         //some functional form that depends on random params dose and dose time... assuming gamma for now.
         //fix: no effect before event...
-        return time<=coffeeEvent.time ? 0 : 
+        return time<=coffeeEvent.time ? 
+                    0 : 
                     coffeeEvent.dose * gammaERP.score([shape, scale], time-coffeeEvent.time)
     }
     
@@ -41,7 +49,6 @@ var target = function(coffeeEvents, moodMeasures) {
     var coffeeResponse = function(time) {
         //do we want a non-linear aggregation of effects?
         return reduce(function(e,memo){
-            console.log('kernel'+coffeeKernel(e, time))
                 return  memo + coffeeKernel(e,time)
             }, 0, coffeeEvents)
     }
@@ -51,22 +58,23 @@ var target = function(coffeeEvents, moodMeasures) {
     var intercept = gaussian(0, 1)
     var tau = gamma(a0, 1 / b0)
     
-    console.log(coffeeCoef, intercept, tau)
     var observeMood = function(obs){
         var predictedMood = coffeeCoef*coffeeResponse(obs.time) + intercept
-        console.log('response'+coffeeResponse(obs.time))
-        factor(gaussianERP.score([predictedMood,1 / Math.sqrt(tau)], obs.measured))
+        factor(gaussianERP.score([predictedMood,1/Math.sqrt(tau)], obs.measure))
     }
 
     map(observeMood, moodMeasures)
-    console.log('after factor')
-
 
     return [shape, scale, coffeeCoef, intercept, tau]
 }
 
-MH(function(){return target(coffeeEvents, moodMeasures)},100)
+var posteriorERP = MH(function(){return target(coffeeEvents, moodMeasures)},50000, 25000, true)
 
+console.log("expected value of shape: " + expectation(marginalizeERP(posteriorERP,0)))
+console.log("expected value of scale: " + expectation(marginalizeERP(posteriorERP,1)))
+console.log("expected value of coffeeCoef: " + expectation(marginalizeERP(posteriorERP,2)))
+console.log("expected value of intercept: " + expectation(marginalizeERP(posteriorERP,3)))
+console.log("expected value of tau: " + expectation(marginalizeERP(posteriorERP,4)))
 
 
 
