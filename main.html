@@ -33,6 +33,7 @@
 
 <template name="dashboard">
   {{#if user}}
+    {{> ratingsChart}}
     {{> ratingsList}}
     {{> notificationTest}}
   {{else}}
@@ -56,6 +57,12 @@
       <input type="submit" value="Submit" class="btn btn-primary"/>
     </div>
   </form>
+</template>
+
+<template name="ratingsChart">
+  <h3>Chart</h3>
+  <svg id="lineChart">
+  </svg>
 </template>
 
 <template name="ratingsList">

@@ -15,3 +15,4 @@ maxharris9:meteor-bootstrap-slider
 momentjs:moment
 lbee:moment-helpers
 iron:router
+d3js:d3
