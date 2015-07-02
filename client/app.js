@@ -13,24 +13,38 @@ Template.ratingForm.onRendered(function(){
   $('.slider').slider();
 });
 
+var sampleDelay = function(callback){
+  return runWebPPLCode(
+    "exponential(.5) * 2000",
+    function(s, delay){
+      console.log('Sampled delay using webppl: ', delay);
+      return callback(delay);});
+};
+
 Template.notificationTest.events({
   'click [data-action="send-notification"], submit': function (event, template) {
-    event.preventDefault();
-    var title = "SampleMe"; // template.$('[data-field="title"]').val()
-    var message = "Hey, it's time to check in!"; // template.$('[data-field="message"]').val()
-    var delay = 10 * 1000;
-    setTimeout(
-      function(){
-        Meteor.call('notify', title, message, function(err, res) {
-          if (err) {
-	    console.log(err);
-          } else {
-	    if (res.userCount) {
-	      console.log('Notification sent.');
-	    }
-          }
-        });
-      }, delay);
+    event.preventDefault();    
+    sampleDelay(
+      function(delay){
+        setTimeout(
+          function(){
+            if notifications are enabled
+            if (true){
+              var title = "SampleMe"; // template.$('[data-field="title"]').val()
+              var message = "Hey, it's time to check in!"; // template.$('[data-field="message"]').val()
+              Meteor.call('notify', title, message, function(err, res) {
+                if (err) {
+	          console.log(err);
+                } else {
+                  console.log('res', res);
+	          if (res.userCount) {
+	            console.log('Notification sent.');
+	          }
+                }
+              });
+            }
+          }, delay);
+      });
   }
 });
 
