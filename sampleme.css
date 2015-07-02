@@ -34,3 +34,23 @@ img.logo {
   height: 130%;
   margin-top: -3px;   
 }
+
+@media only screen and (max-device-width: 480px) {
+
+   body {
+      background-color: #009688;      
+   }
+   
+   div.main-container {
+      width: 100%;
+      padding: 0;
+   }
+
+   div#main {
+      min-height: 350px;
+   }
+
+   div#footer {
+      box-shadow: none;
+   }
+}
