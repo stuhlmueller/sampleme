@@ -1,0 +1,100 @@
+// webppl detectChanges.wppl
+
+// adapted from Lee & Wagenmakers 5.4: Change detection in time series data
+
+var data = {
+	0:1,
+	1:2,
+	2:3,
+	3:3,
+	4:5,
+	5:8
+}
+
+var variance = function(myERP){
+	return expectation(myERP, function(x){return Math.pow(x,2)}) - Math.pow(expectation(myERP),2)
+}
+
+var marginalizeERP = function(myERP, index){
+	Enumerate(function(){
+		return sample(myERP)[index]
+	})
+}
+
+var unseenData = {
+	6: null,
+	7: null, 
+	8: null,
+	9: null,
+	10: null
+}
+
+
+// variance_t = gaussian(variance_t-1, parameter)
+// factor(GaussianERP([time1, variance_t], time2))
+
+
+var driftModel = function(){
+	// variance changes with unknown rate
+	var driftRate = gamma(0.05,0.05)
+	var initialVariance = 1
+	var initialMean = 0
+
+	// variance at a given time point, is sampled from a gaussian with mean of the variance at the last time point
+	// AND variance of the driftRate
+	var sigma = function(timePoint){
+		var last_sigma = timePoint == 0 ? initialVariance : sigma(timePoint-1)
+		return gaussian(last_sigma, driftRate)
+	}
+	// observed data is assumed to be sampled from a gaussian with mean at the last data point
+	// and variance as determined above
+	var score = reduce(function(timePoint, memo){
+		console.log(timePoint, data[timePoint])
+		console.log(sigma(timePoint))
+		var last_data = timePoint == 0 ? 0 : data[timePoint-1]
+		return memo + gaussianERP.score([last_data, sigma(timePoint)], 
+										data[timePoint])
+	}, 0, _.keys(data))
+
+
+	// factor(score)
+	// console.log('after factor')
+	var posteriorPredictive = function(timePoint){
+		var last_data = (_.keys(data).indexOf(global.String(timePoint-1)) > -1) ?  
+										data[timePoint-1] : 
+										posteriorPredictive(timePoint-1)
+		return gaussian(last_data, sigma(timePoint))
+	}
+
+	var pp = map(posteriorPredictive, _.keys(unseenData))
+
+	return [[driftRate], pp]
+
+}
+
+// driftModel()
+
+var posteriorERP = MH(driftModel, 100, 10, true)
+
+// var parametersERP = marginalizeERP(posteriorERP,0)
+// var predictiveERP = marginalizeERP(posteriorERP,1)
+
+// console.log("expected drift rate: " + expectation(marginalizeERP(parametersERP,0)))
+// // // console.log("expected time of change 2: " + expectation(marginalizeERP(parametersERP,1)))
+// // console.log("mean of epoch 1: " + expectation(marginalizeERP(parametersERP,1)))
+// // console.log("mean of epoch 2: " + expectation(marginalizeERP(parametersERP,2)))
+// // // console.log("mean of epoch 3: " + expectation(marginalizeERP(parametersERP,4)))
+
+// console.log("expectation on time 6: " + expectation(marginalizeERP(predictiveERP, 0)))
+// console.log("expectation on time 7: " + expectation(marginalizeERP(predictiveERP, 1)))
+// console.log("expectation on time 8: " + expectation(marginalizeERP(predictiveERP, 2)))
+// console.log("expectation on time 9: " + expectation(marginalizeERP(predictiveERP, 3)))
+// console.log("expectation on time 10: " + expectation(marginalizeERP(predictiveERP, 4)))
+// console.log("variance on time 6: " + variance(marginalizeERP(predictiveERP, 0)))
+// console.log("variance on time 7: " + variance(marginalizeERP(predictiveERP, 1)))
+// console.log("variance on time 8: " + variance(marginalizeERP(predictiveERP, 2)))
+// console.log("variance on time 9: " + variance(marginalizeERP(predictiveERP, 3)))
+// console.log("variance on time 10: " + variance(marginalizeERP(predictiveERP, 4)))
+
+
+// _.keys(data).indexOf(global.String(5))
