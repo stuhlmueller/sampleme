@@ -37,6 +37,7 @@
     {{> ratingsList}}
     {{> notificationTest}}
   {{else}}
+    <p>Sign in to use the dashboard.</p>
     {{> loginButtons}}
   {{/if}}
 </template>
@@ -45,6 +46,7 @@
   {{#if user}}
     {{> ratingForm}}
   {{else}}
+    <p>Sign in to track your data.</p>
     {{> loginButtons}}
   {{/if}}  
 </template>
