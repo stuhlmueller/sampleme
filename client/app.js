@@ -94,9 +94,11 @@ Template.ratingsChart.rendered = function(){
   console.log('Template.ratingsChart.onRendered');
   
   //Width and height
-  var margin = {top: 20, right: 20, bottom: 30, left: 50},
-      width = 600 - margin.left - margin.right,
-      height = 400 - margin.top - margin.bottom;
+  var boxWidth = $("#main").width();
+  var boxHeight = Math.min(400,$(window).height() - 140);
+  var margin = {top: 20, right: 40, bottom: 30, left: 50};
+  var width = boxWidth - margin.left - margin.right;
+  var height = boxHeight - margin.top - margin.bottom;
 
   var x = d3.time.scale()
       .range([0, width]);
