@@ -5,6 +5,7 @@ Template.ratingsList.helpers({
   }
 });
 
+
 Template.ratingsChart.rendered = function(){
   console.log('Template.ratingsChart.onRendered');
   
@@ -98,3 +99,15 @@ Template.ratingsChart.rendered = function(){
       .remove();
   });
 };
+
+
+Template.ratingItem.events({
+  'click': function(e){
+    e.preventDefault();
+    Ratings.remove(this._id, function(error){
+      if (error){
+        throwError(error.reason);
+      }
+    });    
+  }
+});
