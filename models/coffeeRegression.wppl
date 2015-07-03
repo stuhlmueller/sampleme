@@ -1,5 +1,11 @@
 // thinking through VI for (mixed effects / hierarchical) regression models.
 
+
+// this is a model of the influence of a particular event (here, coffeeEvents) on a measure (here, moodMeasures)
+
+// MAJOR ASSUMPTIONS THAT NEED REVISITING
+// coffeeKernel is determined by a gamma (mostly because it ranges from 0 -- Infinity, and looks vaguely like a hemodynamic response function..)
+
 var a0 = 1;
 var b0 = 1;
 //var mu0 = 0;
@@ -8,26 +14,24 @@ var b0 = 1;
 //moodMeasures is an array of objects {time: , measure: }
 
 var moodMeasures = [
-{time: 0, measure: 0},
-{time: 1, measure: 0.2},
+{time: 0, measure: 6},
+{time: 1, measure: 4},
 {time: 2, measure: 3},
-{time: 3, measure: 3},
+{time: 3, measure: 6},
 {time: 4, measure: 1}
 ]
 //coffeeEvents is an array of objects {time: , dose: }
 var coffeeEvents = [
 {time: 0, dose: 1.5},
-{time: 1, dose: 0.2},
-{time: 2, dose: 0.1},
-{time: 3, dose: 0.1},
+{time: 1, dose: 0},
+{time: 2, dose: 0},
+{time: 3, dose: 2},
 {time: 4, dose: 0}
 ]
 
 
 var marginalizeERP = function(myERP, index){
-    Enumerate(function(){
-        return sample(myERP)[index]
-    })
+    Enumerate(function(){return sample(myERP)[index]})
 }
 
 var target = function(coffeeEvents, moodMeasures) {
@@ -42,13 +46,13 @@ var target = function(coffeeEvents, moodMeasures) {
         //fix: no effect before event...
         return time<=coffeeEvent.time ? 
                     0 : 
-                    coffeeEvent.dose * gammaERP.score([shape, scale], time-coffeeEvent.time)
+                    coffeeEvent.dose * Math.exp(gammaERP.score([shape, scale], time-coffeeEvent.time))
     }
     
     //coffeeResponse is the coffee events convolved with the coffee response kernel, evaluated at a given time.
     var coffeeResponse = function(time) {
         //do we want a non-linear aggregation of effects?
-        return reduce(function(e,memo){
+        return reduce(function(e, memo){
                 return  memo + coffeeKernel(e,time)
             }, 0, coffeeEvents)
     }
