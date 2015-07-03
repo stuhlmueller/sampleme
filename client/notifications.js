@@ -24,7 +24,7 @@ var continuousNotification = function(){
 	        console.log('Notification sent.');
 	      }
               // if notifications are enabled
-              if (App.promptToggleVal){
+              if (false){
                 continuousNotification();
               }
             }

@@ -15,12 +15,5 @@ Template.ratingForm.events({
 
     $("#rating").slider();
     // Router.go('postPage', post);
-  },
-
-  'change #promptToggle': function(e){
-    console.log('change #promptToggle', e);
-    var promptToggleVal = $('#promptToggle').val();
-    console.log('promptToggleVal', promptToggleVal);
-    global.promptToggleVal = promptToggleVal; // FIXME: store in db
   }
 });

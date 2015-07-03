@@ -1,6 +1,4 @@
-_.extend(App, {
-  promptToggleVal: false
-});
+_.extend(App, {});
 
 App.helpers = {
   user: function(){return Meteor.user();}
