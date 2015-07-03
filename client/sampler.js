@@ -7,13 +7,16 @@ Template.ratingForm.events({
     e.preventDefault();
 
     var rating = {
-      value: $("#rating").slider('getValue'),
-      timestamp: new Date(),
-      userId: Meteor.user()._id
+      value: $("#rating").slider('getValue')
     };
-    rating._id = Ratings.insert(rating);
 
-    $("#rating").slider();
-    // Router.go('postPage', post);
+    Meteor.call('insertRating', rating, function(error, results){
+      if (error){
+        return alert(error.reason);
+      } else {
+        // reset slider
+        $("#rating").slider();
+      }      
+    });
   }
 });
