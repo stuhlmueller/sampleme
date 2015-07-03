@@ -1,0 +1,30 @@
+<template name="data">
+  {{#if user}}
+    {{> ratingsChart}}
+    {{> ratingsList}}
+  {{else}}
+    <p>Sign in to see your data.</p>
+    {{> loginButtons}}
+  {{/if}}
+</template>
+
+<template name="ratingsChart">
+  <h3>Chart</h3>
+  <svg id="lineChart">
+  </svg>
+</template>
+
+<template name="ratingsList">
+  <div>
+    <h3>Ratings</h3>
+    <ul>
+      {{#each ratings}}
+        {{> ratingItem}}
+      {{/each}}      
+    </ul>
+  </div>
+</template>
+
+<template name="ratingItem">
+  <li>{{moFromNow timestamp}} - {{value}}</li>
+</template>

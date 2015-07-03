@@ -1,0 +1,26 @@
+<template name="layout">
+  <div class="container main-container">
+    <header id="header" class="navbar navbar-default" role="navigation"> 
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>        
+        </button>        
+        <a class="navbar-brand" href="/"><img class="logo" src="/logo.png" alt="SampleMe" /></a>
+      </div>
+      <div class="collapse navbar-collapse" id="navigation">
+        <ul class="nav navbar-nav navbar-right">
+          {{> loginButtons}}
+        </ul>
+      </div>      
+    </header>
+    <div id="main" class="well">
+      {{> yield}}
+    </div>
+    <div id="footer" class="well">
+      <p class="text-center"><a href="{{pathFor 'sampler'}}">Sampler</a> | <a href="{{pathFor 'data'}}">Data</a> | <a href="{{pathFor 'notifications'}}">Notifications</a></p>
+    </div>    
+  </div>
+</template>

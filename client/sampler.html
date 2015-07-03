@@ -1,0 +1,18 @@
+<template name="sampler">
+  {{#if user}}
+    {{> ratingForm}}
+  {{else}}
+    <p>Sign in to track your data.</p>
+    {{> loginButtons}}
+  {{/if}}  
+</template>
+
+<template name="ratingForm">
+  <form role="form">
+    <div id="rating-form-group" class="form-group">
+      <label for="rating">How are you feeling?</label><br>
+      <input id="rating" name="rating" type="text" class="slider" value="" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="5" data-slider-orientation="horizontal"><br>
+      <input type="submit" value="Submit" class="btn btn-primary"/>
+    </div>
+  </form>
+</template>

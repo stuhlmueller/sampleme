@@ -1,0 +1,13 @@
+<template name="notifications">
+  {{#if user}}
+    <div>
+      <h3>Delayed Notifications</h3>  
+      <form>
+        <button data-action="send-notification">Send</button>
+      </form>
+    </div>
+  {{else}}
+    <p>Sign in to set up notifications.</p>
+  {{/if}}
+</template>
+
