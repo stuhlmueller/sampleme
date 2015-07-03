@@ -1,3 +1,31 @@
+/* Header, footer, main */
+
+#header, #main {
+   margin-bottom: 0
+}
+
+img.logo {
+  height: 130%;
+  margin-top: -3px;   
+}
+
+#footer {
+   background-color: #009688;
+   color: #fff
+}
+
+#footer a {
+   color: #fff
+}
+
+
+/* Slider */
+
+div#rating-form-group {
+  text-align: center;
+  line-height: 4em;
+}
+
 .slider {
    background-color: #fff;
    margin-top: 2em;
@@ -12,28 +40,8 @@
    display: none;
 }
 
-#header, #main {
-   margin-bottom: 0
-}
 
-#footer {
-   background-color: #009688;
-   color: #fff
-}
-
-#footer a {
-   color: #fff
-}
-
-div#rating-form-group {
-  text-align: center;
-  line-height: 4em;
-}
-
-img.logo {
-  height: 130%;
-  margin-top: -3px;   
-}
+/* Chart */
 
 #lineChart .axis path, #lineChart .axis line {
    fill: none;
@@ -51,6 +59,8 @@ img.logo {
    stroke-width: 1.5px;
 }
 
+
+/* Mobile layout */
 
 @media only screen and (max-device-width: 480px) {
 
