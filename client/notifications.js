@@ -39,3 +39,40 @@ Template.notifications.events({
     continuousNotification();
   }
 });
+
+Template.notifications.helpers({
+  notificationsEnabled: function(){
+    var currentUserId = Meteor.user()._id;
+    var settings = NotificationSettings.findOne({userId: currentUserId});
+    if (settings === undefined){
+      NotificationSettings.insert({
+        userId: currentUserId,
+        notificationsEnabled: false
+      });
+      return false;
+    } else {
+      return settings.notificationsEnabled;
+    }
+  }
+});
+
+Template.notifications.rendered = function(){
+  $.material.init(); // necessary to get material bootstrap checkbox to render
+};
+
+Template.notifications.events({
+  "click #notificationsEnabled": function (e) {
+    // Set the checked property to the opposite of its current value
+    var notificationsEnabled = $(e.target).is(':checked');
+    var currentUserId = Meteor.user()._id;
+    var settings = NotificationSettings.findOne({userId: currentUserId});
+    if (settings === undefined){
+      NotificationSettings.insert({
+        userId: currentUserId,
+        notificationsEnabled: notificationsEnabled
+      });
+    } else {
+      NotificationSettings.update(settings._id, {$set: {notificationsEnabled: notificationsEnabled}});
+    }
+  },
+});

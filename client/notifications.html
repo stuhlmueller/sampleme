@@ -1,9 +1,18 @@
 <template name="notifications">
   {{#if user}}
     <div>
-      <h3>Delayed Notifications</h3>  
+      <h3>Notifications</h3>
+      <form role="form">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" id="notificationsEnabled" name="notificationsEnabled"
+                   checked={{notificationsEnabled}}> Enabled
+          </label>
+        </div>
+      </form>
+      <h3>Test</h3>  
       <form>
-        <button data-action="send-notification">Send</button>
+        <button data-action="send-notification">Send notification</button>
       </form>
     </div>
   {{else}}
