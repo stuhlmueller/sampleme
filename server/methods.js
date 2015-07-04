@@ -7,7 +7,7 @@ runWebPPLCode = function(code, callback){
 }
 
 var sampleDelay = function(callback){
-  var code = "exponential(.5) * 15 * 1000 * 60";
+  var code = Assets.getText('delay.wppl');
   var compiled = webppl.compile(code, true);
   var fn = eval.call(global, compiled);
   fn({}, function(s,x){
