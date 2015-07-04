@@ -15,3 +15,7 @@ lbee:moment-helpers
 iron:router
 d3js:d3
 sacha:spin
+meteorhacks:npm
+
+
+npm-container
