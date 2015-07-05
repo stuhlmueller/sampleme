@@ -7,10 +7,11 @@ Template.ratingForm.events({
     e.preventDefault();
 
     var rating = {
-      value: $("#rating").slider('getValue')
+      value: $("#rating").slider('getValue'),
+      type: 'rating'
     };
 
-    Meteor.call('insertRating', rating, function(error, results){
+    Meteor.call('insertEvent', rating, function(error, results){
       if (error){
         return alert(error.reason);
       } else {

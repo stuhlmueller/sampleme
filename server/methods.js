@@ -33,16 +33,17 @@ var notificationService = function(once, userId){
 };
 
 Meteor.methods({
-  'insertRating': function(ratingAttributes){
+  'insertEvent': function(eventAttributes){
     check(this.userId, String);
+    check(eventAttributes.type, String);
     var user = Meteor.user();
-    var rating = _.extend(ratingAttributes, {
+    var event = _.extend(eventAttributes, {
       userId: user._id,
       timestamp: new Date()
     });
-    var ratingId = Ratings.insert(rating);
+    var eventId = Events.insert(event);
     return {
-      _id: ratingId
+      _id: eventId
     };
   },
   'startNotificationService': function(once){

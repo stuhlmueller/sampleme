@@ -1,7 +1,7 @@
-Template.ratingsList.helpers({
-  ratings: function(){
-    return Ratings.find({userId: Meteor.user()._id},
-                        {sort: {timestamp: -1}});
+Template.eventsList.helpers({
+  events: function(){
+    return Events.find({userId: Meteor.user()._id},
+                       {sort: {timestamp: -1}});
   }
 });
 
@@ -59,8 +59,9 @@ Template.ratingsChart.rendered = function(){
 
   Deps.autorun(function(){
     console.log('drawing chart');
-    var dataset = Ratings.find({userId: Meteor.user()._id},
-                               {sort: {timestamp: -1}}).fetch();
+    var dataset = Events.find({userId: Meteor.user()._id},
+                              {type: 'rating'},
+                              {sort: {timestamp: -1}}).fetch();
 
     dataset.forEach(function(obj){
       // console.log(obj.timestamp);
@@ -101,10 +102,10 @@ Template.ratingsChart.rendered = function(){
 };
 
 
-Template.ratingItem.events({
+Template.eventItem.events({
   'click': function(e){
     e.preventDefault();
-    Ratings.remove(this._id, function(error){
+    Events.remove(this._id, function(error){
       if (error){
         throwError(error.reason);
       }

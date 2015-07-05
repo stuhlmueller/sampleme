@@ -1,7 +1,7 @@
 <template name="data">
   {{#if user}}
     {{> ratingsChart}}
-    {{> ratingsList}}
+    {{> eventsList}}
   {{else}}
     <p>Sign in to see your data.</p>
     {{> loginButtons}}
@@ -14,17 +14,17 @@
   </svg>
 </template>
 
-<template name="ratingsList">
+<template name="eventsList">
   <div>
-    <h3>Ratings</h3>
+    <h3>Events</h3>
     <ul>
-      {{#each ratings}}
-        {{> ratingItem}}
+      {{#each events}}
+        {{> eventItem}}
       {{/each}}      
     </ul>
   </div>
 </template>
 
-<template name="ratingItem">
-  <li><a href="#" class="delete">[x]</a> {{moFromNow timestamp}} - {{value}}</li>
+<template name="eventItem">
+  <li><a href="#" class="delete">[x]</a> {{moFromNow timestamp}} - {{type}} - {{value}}</li>
 </template>
