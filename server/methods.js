@@ -1,11 +1,5 @@
 var webppl = Meteor.npmRequire('webppl');
 
-runWebPPLCode = function(code, callback){
-  var compiled = webppl.compile(code, true);
-  var fn = eval.call(global, compiled);
-  fn({}, callback, '');
-}
-
 var sampleDelay = function(callback){
   var code = Assets.getText('delay.wppl');
   var compiled = webppl.compile(code, true);
