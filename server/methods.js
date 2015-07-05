@@ -22,6 +22,13 @@ var notificationService = function(once, userId){
           title: title,
           message: message
         });
+        var event = {
+          type: 'notification',          
+          value: message,
+          userId: userId,
+          timestamp: new Date()
+        };
+        Events.insert(event);
         console.log('Notification sent:', message);
         if (!once){
           notificationService(false, userId);
