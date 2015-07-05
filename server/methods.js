@@ -9,15 +9,18 @@ var sampleDelay = function(callback){
   }, '');
 };
 
-var notificationService = function(once, userId){
-  if (notificationsEnabled(userId) || once){
+var notificationService = function(isTest, userId){
+  if (notificationsEnabled(userId) || isTest){
     sampleDelay(function(delay){
       console.log('delay:', delay);
+      delay = isTest ? 0 : delay;
       Meteor.setTimeout(function(){
         console.log('delay over');
         var title = "SampleMe";
         var delayString = moment.utc(delay).format("mm:ss");
-        var message = "Hey, " + delayString + " minutes have passed - it's time to check in!";
+        var message = (isTest ?
+                       'Hey, this is a test notification!' : 
+                       "Hey, " + delayString + " minutes have passed - it's time to check in!");
         App.notificationClient.sendNotification(userId, {
           title: title,
           message: message
@@ -30,7 +33,7 @@ var notificationService = function(once, userId){
         };
         Events.insert(event);
         console.log('Notification sent:', message);
-        if (!once){
+        if (!isTest){
           notificationService(false, userId);
         }
       }, delay);
