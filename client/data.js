@@ -59,8 +59,7 @@ Template.ratingsChart.rendered = function(){
 
   Deps.autorun(function(){
     console.log('drawing chart');
-    var dataset = Events.find({userId: Meteor.user()._id},
-                              {type: 'rating'},
+    var dataset = Events.find({userId: Meteor.user()._id, type: 'rating'},
                               {sort: {timestamp: -1}}).fetch();
 
     dataset.forEach(function(obj){
