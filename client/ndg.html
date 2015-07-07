@@ -1,0 +1,25 @@
+<template name="trackerTree">
+  <ul>
+    {{#each branches}}
+        {{>branch}}
+    {{/each}}
+  </ul>
+</template>
+
+<template name="branch">
+    <button name={{name}}>{{name}}</button>
+    {{! todo: hide sub-branches until button is clicked}}
+    {{#if branches.length}}
+       <ul>
+           {{#each branches}}
+                   {{>branch}}
+           {{/each}}
+       </ul>
+    {{else}}
+      <ul>
+        {{#each inputs}}
+            input: {{name}}
+        {{/each}}
+      </ul>
+    {{/if}}
+</template>
