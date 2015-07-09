@@ -1,18 +1,16 @@
 <template name="trackerTree">
-  {{addFullnames branches}}
   <ul>
     {{#each branches}}
-        {{>branch}}
+      {{>branch}}
     {{/each}}
   </ul>
 </template>
 
 <template name="branch">
-  <button name={{name}} onclick="$('#{{fullname}}').show()">{{name}}</button>
+  <button name={{name}} onclick="$('#{{fullName}}').show()">{{name}}</button>
   {{! todo: move initial hiding into css}}
-  <div class="subpane" id={{fullname}} style="display:none">
+  <div class="subpane" id={{fullName}}>
     {{#if branches.length}}
-      {{extendBranchFullNames branches}}
       {{#each branches}}
         {{>branch}}
       {{/each}}
@@ -23,11 +21,10 @@
 </template>
 
 <template name="inputs">
-  {{extendInputFullNames inputs}}
   <form role="form">
     {{#each inputs}}
-      input: {{fullname}}
-      <input id={{fullname}} name={{fullname}} />
+      input: {{fullName}}
+      <input id={{fullName}} name={{fullName}} />
     {{/each}}
     <input type="submit" />
     {{! todo: handle submit. get all inputs from the template, meteor insert, clear inputs and hide the divs}}
