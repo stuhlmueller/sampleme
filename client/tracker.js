@@ -28,14 +28,14 @@ var trackerOntology = {
 addFullNames(trackerOntology);
 
 
-Template.trackerTree.helpers({
+Template.tracker.helpers({
   branches: function(){
     return trackerOntology.branches;
   }
 });
 
 
-Template.trackerTree.onRendered(function(){  
+Template.tracker.onRendered(function(){  
   $('.slider').slider();  // initialize all sliders
 });
 
