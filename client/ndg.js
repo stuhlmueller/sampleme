@@ -12,23 +12,21 @@ Template.trackerTree.helpers({
   addFullnames: function(bs){
     bs.forEach(function(b){b.fullname=trackerOntology.name+"-"+b.name})
   }
-})
+});
 
 Template.branch.helpers({
   extendBranchFullNames: function(bs){
     var fullname = this.fullname
     bs.forEach(function(b){b.fullname=fullname+"-"+b.name})
   }
-}
-  )
+});
 
 Template.inputs.helpers({
   extendInputFullNames: function(is){
     var fullname = this.fullname
     is.forEach(function(i){i.fullname=fullname+"-"+i.name})
   }
-}
-    )
+});
 
 Template.inputs.events({
   'submit form': function(e,t) {
