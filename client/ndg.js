@@ -21,14 +21,16 @@ var trackerOntology = {
     {name: "Eat", inputs: [{name: "What", type: "text"}] },
     {name: "Drink", branches:
      [{name: "Caffeine", inputs: [{name: "Quantity", type: "slider"}]},
-      {name: "Alchohol", inputs: [{name: "Quantity", type: "slider"}]}]}]
+      {name: "Alcohol", inputs: [{name: "Quantity", type: "slider"}]}]}]
 };
 
 addFullNames(trackerOntology);
 
 
 Template.trackerTree.helpers({
-  branches: function(){return trackerOntology.branches}
+  branches: function(){
+    return trackerOntology.branches;
+  }
 });
 
 
@@ -37,18 +39,19 @@ Template.inputs.events({
     e.preventDefault();
 
     //get info from all the input elements
-    var data = t.$(':input').map(function(ind,obj){
+    var data = t.$(':input').map(function(ind, obj){
       return {name: obj.name, value: obj.value}}) //checkme: value or val()?
 
     console.log(data)
 
-    // Meteor.call('insertEvent', rating, function(error, results){
-    //   if (error){
-    //     return alert(error.reason);
-    //   } else {
-    //     // reset slider
-    //     $("#rating").slider();
-    //   }
-    // });
+    Meteor.call('insertEvent', rating, function(error, results){
+      if (error){
+        return alert(error.reason);
+      } else {
+        // reset slider
+        // $("#rating").slider();
+        
+      }
+    });
   }
 });

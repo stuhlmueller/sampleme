@@ -7,24 +7,28 @@
 </template>
 
 <template name="branch">
-  <button name={{name}} onclick="$('#{{fullName}}').show()">{{name}}</button>
-  {{! todo: move initial hiding into css}}
-  <div class="subpane" id={{fullName}}>
-    {{#if branches.length}}
-      {{#each branches}}
-        {{>branch}}
-      {{/each}}
-    {{else}}
-      {{>inputs}}
-    {{/if}}
-  </div>
+  <li>
+    <button name={{name}} onclick="$('#{{fullName}}').show()">{{name}}</button>
+    {{! todo: move initial hiding into css}}
+    <div class="subpane" id={{fullName}}>
+      {{#if branches.length}}
+        <ul>
+        {{#each branches}}
+          {{>branch}}
+        {{/each}}
+        </ul>
+      {{else}}
+        {{>inputs}}
+      {{/if}}
+    </div>
+  </li>
 </template>
 
 <template name="inputs">
   <form role="form">
     {{#each inputs}}
       input: {{fullName}}
-      <input id={{fullName}} name={{fullName}} />
+      <input id="{{fullName}}" name="{{fullName}}" />
     {{/each}}
     <input type="submit" />
     {{! todo: handle submit. get all inputs from the template, meteor insert, clear inputs and hide the divs}}
