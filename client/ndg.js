@@ -34,7 +34,7 @@ Template.trackerTree.helpers({
 });
 
 
-Template.inputs.events({
+Template.trackerInputs.events({
   'submit form': function(e, t) {
     e.preventDefault();
 

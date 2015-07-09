@@ -1,36 +1,42 @@
 <template name="trackerTree">
   <ul class="trackerTree">
     {{#each branches}}
-      {{>branch}}
+      {{>trackerBranch}}
     {{/each}}
   </ul>
 </template>
 
-<template name="branch">
+<template name="trackerBranch">
   <li>
     <button class="btn btn-default btn-raised" name={{name}} onclick="$('#{{fullName}}').show()">{{name}}</button>
-    {{! todo: move initial hiding into css}}
     <div class="subpane" id={{fullName}}>
       {{#if branches.length}}
         <ul>
         {{#each branches}}
-          {{>branch}}
+          {{>trackerBranch}}
         {{/each}}
-        </ul>
+        </ul>  
       {{else}}
-        {{>inputs}}
+        {{>trackerInputs}}
       {{/if}}
     </div>
   </li>
 </template>
 
-<template name="inputs">
+<template name="trackerInputs">
   <form role="form">
-    {{#each inputs}}
-      input: {{fullName}}
-      <input id="{{fullName}}" name="{{fullName}}" />
-    {{/each}}
-    <input type="submit" />
-    {{! todo: handle submit. get all inputs from the template, meteor insert, clear inputs and hide the divs}}
+    <ul>
+      {{#each inputs}}
+        {{>trackerInput}}
+      {{/each}}
+      <li><input type="submit" class="btn btn-primary btn-raised" /></li>
+    </ul>    
   </form>
+</template>
+
+<template name="trackerInput">
+  <li>
+  input: {{fullName}}
+  <input id="{{fullName}}" name="{{fullName}}" />
+  </li>
 </template>
