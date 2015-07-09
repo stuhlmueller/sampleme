@@ -83,7 +83,11 @@ div#rating-form-group {
 }
 
 
-/* Input panes */
+/* Tracker tree */
+
+ul.trackerTree, ul.trackerTree li {
+   list-style-type: none;
+}
 
 .subpane {
    display: none;
