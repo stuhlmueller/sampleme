@@ -1,6 +1,6 @@
 <template name="data">
   {{#if user}}
-    {{> ratingsChart}}
+    {{> moodChart}}
     {{> eventsList}}
   {{else}}
     <p>Sign in to see your data.</p>
@@ -8,7 +8,7 @@
   {{/if}}
 </template>
 
-<template name="ratingsChart">
+<template name="moodChart">
   <h3>Chart</h3>
   <svg id="lineChart">
   </svg>
@@ -26,5 +26,5 @@
 </template>
 
 <template name="eventItem">
-  <li><a href="#" class="delete">[x]</a> {{moFromNow timestamp}} - {{type}} - {{value}}</li>
+  <li><a href="#" class="delete">[x]</a> {{moFromNow timestamp}} - {{type}} - {{#if isTrackerEvent}} {{subtype}} - {{/if}}{{value}}</li>
 </template>

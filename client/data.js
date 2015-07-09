@@ -6,8 +6,8 @@ Template.eventsList.helpers({
 });
 
 
-Template.ratingsChart.rendered = function(){
-  console.log('Template.ratingsChart.onRendered');
+Template.moodChart.rendered = function(){
+  console.log('Template.moodChart.onRendered');
   
   //Width and height
   var boxWidth = $("#main").width();
@@ -55,11 +55,11 @@ Template.ratingsChart.rendered = function(){
     .attr("y", 6)
     .attr("dy", ".71em")
     .style("text-anchor", "end")
-    .text("Rating");
+    .text("Mood");
 
   Deps.autorun(function(){
     console.log('drawing chart');
-    var dataset = Events.find({userId: Meteor.user()._id, type: 'rating'},
+    var dataset = Events.find({userId: Meteor.user()._id, type: 'tracker', subtype: 'Tracker-Mood-Quality'},
                               {sort: {timestamp: -1}}).fetch();
 
     dataset.forEach(function(obj){
@@ -102,12 +102,19 @@ Template.ratingsChart.rendered = function(){
 
 
 Template.eventItem.events({
-  'click': function(e){
+  'click a.delete': function(e){
     e.preventDefault();
     Events.remove(this._id, function(error){
       if (error){
         throwError(error.reason);
       }
     });    
+  }
+});
+
+
+Template.eventItem.helpers({
+  'isTrackerEvent': function(){
+    return this.type === 'tracker';
   }
 });
