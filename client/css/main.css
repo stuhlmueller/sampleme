@@ -81,3 +81,10 @@ div#rating-form-group {
       box-shadow: none;
    }
 }
+
+
+/* Input panes */
+
+.subpane {
+   display: none;
+}
