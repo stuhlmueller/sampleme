@@ -8,7 +8,7 @@
 
 <template name="trackerBranch">
   <li>
-    <button class="btn btn-default btn-raised" name={{name}} onclick="$('#{{fullName}}').show()">{{name}}</button>
+    <button class="btn btn-default btn-raised" name={{name}} onclick="$('#{{fullName}}').toggle()">{{name}}</button>
     <div class="subpane" id={{fullName}}>
       {{#if branches.length}}
         <ul>
