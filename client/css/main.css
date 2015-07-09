@@ -92,3 +92,12 @@ ul.trackerTree, ul.trackerTree li {
 .subpane {
    display: none;
 }
+
+form.trackerForm {
+   padding-top: 1em;
+   margin-bottom: 1em;
+}
+
+input.trackerSubmit {
+   margin-bottom: 1.5em;
+}

@@ -16,12 +16,13 @@ var addFullNames = function(ontology){
 };
 
 var trackerOntology = {
-  name: "Base",
+  name: "Tracker",
   branches: [
     {name: "Eat", inputs: [{name: "What", type: "text"}] },
     {name: "Drink", branches:
      [{name: "Caffeine", inputs: [{name: "Quantity", type: "slider"}]},
-      {name: "Alcohol", inputs: [{name: "Quantity", type: "slider"}]}]}]
+      {name: "Alcohol", inputs: [{name: "Quantity", type: "slider"}]}]},
+    {name: "Mood", inputs: [{name: "Quality", type: "slider"}] }]
 };
 
 addFullNames(trackerOntology);
@@ -34,23 +35,56 @@ Template.trackerTree.helpers({
 });
 
 
+Template.trackerTree.onRendered(function(){  
+  $('.slider').slider();  // initialize all sliders
+});
+
+
+Template.trackerBranch.events({
+  'click button.toggle-subpane': function(e){
+    e.preventDefault();
+    e.stopPropagation();   
+    var subPaneId = $(e.toElement).data('target');
+    $(subPaneId).toggle();
+  }
+});
+
+
+Template.trackerInput.helpers({
+  isSlider: function(){
+    return (this.type === 'slider');
+  }
+});
+
+
 Template.trackerInputs.events({
   'submit form': function(e, t) {
     e.preventDefault();
 
-    //get info from all the input elements
-    var data = t.$(':input').map(function(ind, obj){
-      return {name: obj.name, value: obj.value}}) //checkme: value or val()?
-
-    console.log(data)
-
-    Meteor.call('insertEvent', rating, function(error, results){
+    // get info from all the input elements
+    var event = {
+      type: 'tracker'
+    };
+    t.$('.trackerInput').map(
+      function(ind, obj){
+        event.subtype = obj.name;
+        if ($(obj).hasClass('slider')){
+          event.value = $(obj).slider('getValue');
+        } else {
+          event.value = $(obj).val();
+        }
+      });
+    
+    console.log(event)
+    
+    Meteor.call('insertEvent', event, function(error, results){
       if (error){
         return alert(error.reason);
       } else {
-        // reset slider
-        // $("#rating").slider();
-        
+        // reset everything
+        $('.trackerForm').trigger('reset');
+        $('.subpane').hide();
+        $('.slider .trackerInput').slider();
       }
     });
   }

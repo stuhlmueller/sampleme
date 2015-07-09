@@ -1,15 +1,19 @@
 <template name="trackerTree">
-  <ul class="trackerTree">
-    {{#each branches}}
-      {{>trackerBranch}}
-    {{/each}}
-  </ul>
+  {{#if user}}
+    <ul class="trackerTree">
+      {{#each branches}}
+        {{>trackerBranch}}
+      {{/each}}
+    </ul>
+  {{else}}
+    <p>Sign in to track your data.</p>  
+  {{/if}}
 </template>
 
 <template name="trackerBranch">
   <li>
-    <button class="btn btn-default btn-raised" name={{name}} onclick="$('#{{fullName}}').toggle()">{{name}}</button>
-    <div class="subpane" id={{fullName}}>
+    <button class="btn btn-default btn-raised toggle-subpane" data-target='#Pane-{{fullName}}'>{{name}}</button>
+    <div class="subpane" id="Pane-{{fullName}}">
       {{#if branches.length}}
         <ul>
         {{#each branches}}
@@ -24,19 +28,30 @@
 </template>
 
 <template name="trackerInputs">
-  <form role="form">
+  <form role="form" class="trackerForm shadow-z-1">
     <ul>
       {{#each inputs}}
         {{>trackerInput}}
       {{/each}}
-      <li><input type="submit" class="btn btn-primary btn-raised" /></li>
+      <li><input type="submit" class="btn btn-primary btn-raised trackerSubmit" /></li>
     </ul>    
   </form>
 </template>
 
 <template name="trackerInput">
   <li>
-  input: {{fullName}}
-  <input id="{{fullName}}" name="{{fullName}}" />
+    {{#if isSlider}}
+      {{>trackerSlider}}
+    {{else}}
+      {{>trackerText}}
+    {{/if}}
   </li>
+</template>
+
+<template name="trackerSlider">
+  <input id="{{fullName}}" name="{{fullName}}" type="text" class="slider trackerInput" value="" data-slider-min="0" data-slider-max="10" data-slider-step="1"  data-slider-value="5" data-slider-orientation="horizontal" />
+</template>
+
+<template name="trackerText">
+  <input id="{{fullName}}" name="{{fullName}}" type="text" class="form-control floating-label trackerInput" placeholder="{{name}}" />
 </template>
