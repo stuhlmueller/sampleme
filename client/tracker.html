@@ -6,7 +6,7 @@
       {{/each}}
     </ul>
   {{else}}
-    <p>Sign in to track your data.</p>  
+    <p>Sign in to track your data.</p>
   {{/if}}
 </template>
 
@@ -19,7 +19,7 @@
         {{#each branches}}
           {{>trackerBranch}}
         {{/each}}
-        </ul>  
+        </ul>
       {{else}}
         {{>trackerInputs}}
       {{/if}}
@@ -34,7 +34,7 @@
         {{>trackerInput}}
       {{/each}}
       <li><input type="submit" class="btn btn-primary btn-raised trackerSubmit" /></li>
-    </ul>    
+    </ul>
   </form>
 </template>
 
@@ -49,7 +49,7 @@
 </template>
 
 <template name="trackerSlider">
-  <input id="{{fullName}}" name="{{fullName}}" type="text" class="slider trackerInput" value="" data-slider-min="0" data-slider-max="10" data-slider-step="1"  data-slider-value="5" data-slider-orientation="horizontal" />
+  <input id="{{fullName}}" name="{{fullName}}" type="text" class="slider trackerInput" value="" data-slider-min="{{min}}" data-slider-max="{{max}}" data-slider-step="{{step}}"  data-slider-value="{{min}}" levels="{{levels}}" units="{{units}}" data-slider-orientation="horizontal" />
 </template>
 
 <template name="trackerText">

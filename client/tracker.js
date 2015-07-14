@@ -15,15 +15,25 @@ var addFullNames = function(ontology){
   }
 };
 
+/*
+
+
+Inputs:
+slider: if levels is given the slider is discrete and the tooltip shows the level label.
+  if levels not given then range and (optionlly) units should be.
+*/
+
 var trackerOntology = {
   name: "Tracker",
   branches: [
     {name: "Eat", inputs: [{name: "What", type: "text"}] },
     {name: "Drink", branches:
-     [{name: "Caffeine", inputs: [{name: "Quantity", type: "slider"}]},
-      {name: "Alcohol", inputs: [{name: "Quantity", type: "slider"}]}]},
-    {name: "Mood", inputs: [{name: "Quality", type: "slider"}] }]
+     [{name: "Caffeine", inputs: [{name: "Quantity", type: "slider", range: [0,5], units: "cups"}]},
+      {name: "Alcohol", inputs: [{name: "Quantity", type: "slider", range: [0,10]}]}]},
+    {name: "Mood", inputs: [{name: "Quality", type: "slider", levels:["bad", "ok", "good"]}] }]
 };
+
+
 
 addFullNames(trackerOntology);
 
@@ -35,15 +45,29 @@ Template.tracker.helpers({
 });
 
 
-Template.tracker.onRendered(function(){  
-  $('.slider').slider();  // initialize all sliders
+Template.tracker.onRendered(function(){
+  $('.slider').each(function(i,x){
+    var levels=$(x).attr('levels');
+    levels = (levels==undefined)?undefined:levels.split(",")
+    var units=$(x).attr('units');
+    units = (units==undefined)?"":units
+    $(x).slider({
+      formater: function(value) {
+        if(levels!=undefined){
+          return levels[value]
+        } else {
+          return value + units
+        }
+      } // initialize slider
+    })
+  })
 });
 
 
 Template.trackerBranch.events({
   'click button.toggle-subpane': function(e){
     e.preventDefault();
-    e.stopPropagation();   
+    e.stopPropagation();
     var subPaneId = $(e.toElement).data('target');
     $(subPaneId).toggle();
   }
@@ -53,6 +77,40 @@ Template.trackerBranch.events({
 Template.trackerInput.helpers({
   isSlider: function(){
     return (this.type === 'slider');
+  }
+});
+
+//TODO: there is probably a more elegant way to get the slider info into the element...
+Template.trackerSlider.helpers({
+  min: function(){
+    var levels=this.levels, range=this.range;
+    if (levels==undefined){
+      return range[0]
+    } else {
+      return 0
+    }
+  },
+  max: function(){
+    var levels=this.levels, range=this.range;
+    if (levels==undefined){
+      return range[1]
+    } else {
+      return levels.length-1
+    }
+  },
+  step: function(){
+    var levels=this.levels, range=this.range;
+    if (levels==undefined){
+      return (range[1]-range[0])/100
+    } else {
+      return 1
+    }
+  },
+  levels: function(){
+    return this.levels;
+  },
+  units: function(){
+    return this.units;
   }
 });
 
@@ -74,9 +132,9 @@ Template.trackerInputs.events({
           event.value = $(obj).val();
         }
       });
-    
+
     console.log(event)
-    
+
     Meteor.call('insertEvent', event, function(error, results){
       if (error){
         return alert(error.reason);
