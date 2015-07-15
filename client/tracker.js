@@ -48,21 +48,21 @@ Template.tracker.helpers({
 
 
 Template.tracker.onRendered(function(){
-  $('.slider').each(function(i,x){
-    var levels=$(x).attr('data-levels');
-    levels = (levels==undefined)?undefined:levels.split(",")
-    var units=$(x).attr('data-units');
-    units = (units==undefined)?"":units
+  $('.slider').each(function(i, x){
+    var levels = $(x).attr('data-levels');
+    levels = (levels == undefined) ? undefined : levels.split(",");
+    var units = $(x).attr('data-units');
+    units = (units==undefined) ? "" : units;
     $(x).slider({
       formater: function(value) {
-        if(levels!=undefined){
-          return levels[value]
+        if (levels != undefined){
+          return levels[value];
         } else {
-          return value + " " + units
+          return value + " " + units;
         }
       } // initialize slider
-    })
-  })
+    });
+  });
 });
 
 
@@ -85,27 +85,30 @@ Template.trackerInput.helpers({
 //TODO: there is probably a more elegant way to get the slider info into the element...
 Template.trackerSlider.helpers({
   min: function(){
-    var levels=this.levels, range=this.range;
-    if (levels==undefined){
-      return range[0]
+    var levels = this.levels;
+    var range = this.range;
+    if (levels == undefined){
+      return range[0];
     } else {
-      return 0
+      return 0;
     }
   },
   max: function(){
-    var levels=this.levels, range=this.range;
-    if (levels==undefined){
-      return range[1]
+    var levels = this.levels;
+    var range = this.range;
+    if (levels == undefined){
+      return range[1];
     } else {
-      return levels.length-1
+      return levels.length-1;
     }
   },
   step: function(){
-    var levels=this.levels, range=this.range;
-    if (levels==undefined){
-      return (range[1]-range[0])/100
+    var levels = this.levels;
+    var range = this.range;
+    if (levels == undefined){
+      return (range[1] - range[0]) / 100;
     } else {
-      return 1
+      return 1;
     }
   },
   levels: function(){
