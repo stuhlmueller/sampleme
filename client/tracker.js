@@ -30,7 +30,9 @@ var trackerOntology = {
     {name: "Drink", branches:
      [{name: "Caffeine", inputs: [{name: "Quantity", type: "slider", range: [0,5], units: "cups"}]},
       {name: "Alcohol", inputs: [{name: "Quantity", type: "slider", range: [0,10]}]}]},
-    {name: "Mood", inputs: [{name: "Quality", type: "slider", levels:["bad", "ok", "good"]}] }]
+    {name: "Mood", inputs: [{name: "Quality", type: "slider", levels:["bad", "ok", "good"]}] },
+    {name: "Twowords", inputs: [{name: "Check spaces", type: "slider", levels:["bad", "ok", "good"]}] }
+  ]
 };
 
 
@@ -128,6 +130,7 @@ Template.trackerInputs.events({
         event.subtype = obj.name;
         if ($(obj).hasClass('slider')){
           event.value = $(obj).slider('getValue');
+          //TODO: record the level label if there is one.
         } else {
           event.value = $(obj).val();
         }
@@ -140,6 +143,7 @@ Template.trackerInputs.events({
         return alert(error.reason);
       } else {
         // reset everything
+        //FIXME: reset should happen elsewhere since the callbeck doesn't happen when in offline mode.
         $('.trackerForm').trigger('reset');
         $('.subpane').hide();
         $('.slider .trackerInput').slider();
