@@ -58,7 +58,7 @@ Template.tracker.onRendered(function(){
         if(levels!=undefined){
           return levels[value]
         } else {
-          return value + units
+          return value + " " + units
         }
       } // initialize slider
     })
