@@ -141,13 +141,13 @@ Template.trackerInputs.events({
     Meteor.call('insertEvent', event, function(error, results){
       if (error){
         return alert(error.reason);
-      } else {
-        // reset everything
-        //FIXME: reset should happen elsewhere since the callbeck doesn't happen when in offline mode.
-        $('.trackerForm').trigger('reset');
-        $('.subpane').hide();
-        $('.slider .trackerInput').slider();
       }
     });
+
+    // Reset everything
+    $('.trackerForm').trigger('reset');
+    $('.subpane').hide();
+    $('.slider .trackerInput').slider();    
+    
   }
 });
