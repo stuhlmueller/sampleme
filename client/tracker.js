@@ -49,9 +49,9 @@ Template.tracker.helpers({
 
 Template.tracker.onRendered(function(){
   $('.slider').each(function(i,x){
-    var levels=$(x).attr('levels');
+    var levels=$(x).attr('data-levels');
     levels = (levels==undefined)?undefined:levels.split(",")
-    var units=$(x).attr('units');
+    var units=$(x).attr('data-units');
     units = (units==undefined)?"":units
     $(x).slider({
       formater: function(value) {
