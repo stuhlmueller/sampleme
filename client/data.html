@@ -2,6 +2,7 @@
   {{#if user}}
     {{> moodChart}}
     {{> eventsList}}
+    {{> dataExport}}
   {{else}}
     <p>Sign in to see your data.</p>
     {{> loginButtons}}
@@ -27,4 +28,9 @@
 
 <template name="eventItem">
   <li><a href="#" class="delete">[x]</a> {{moFromNow timestamp}} - {{type}} - {{#if isTrackerEvent}} {{subtype}} - {{/if}}{{value}}</li>
+</template>
+
+<template name="dataExport">
+  <h3>Export data</h3>
+  <p>Download your data here: <a download href="/sampleme.json">sampleme.json</a></p>
 </template>
