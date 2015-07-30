@@ -1,4 +1,4 @@
-Template.notifications.events({
+Template.settings.events({
   'click [data-action="send-notification"], submit': function (event, template) {
     event.preventDefault();
     Meteor.call('startNotificationService', true, function(err, res) {
@@ -11,15 +11,15 @@ Template.notifications.events({
   }
 });
 
-Template.notifications.helpers({
+Template.settings.helpers({
   notificationsEnabled: notificationsEnabled
 });
 
-Template.notifications.rendered = function(){
+Template.settings.rendered = function(){
   $.material.init(); // necessary to get material bootstrap checkbox to render
 };
 
-Template.notifications.events({
+Template.settings.events({
   "click #notificationsEnabled": function (e) {
     // Set the checked property to the opposite of its current value
     var newNotificationsEnabled = $(e.target).is(':checked');
