@@ -1,21 +1,33 @@
 <template name="settings">
   {{#if user}}
     <div>
-      <h3>Notifications</h3>
-      <form role="form">
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" id="notificationsEnabled" name="notificationsEnabled"
-                   checked={{notificationsEnabled}}> Enabled
-          </label>
-        </div>
-      </form>
-      <form>
-        <button data-action="send-notification">Send notification</button>
-      </form>
+      {{> trackerSettings}}
+      {{> notificationSettings}}
     </div>
   {{else}}
     <p>Sign in to set up notifications.</p>
   {{/if}}
 </template>
 
+<template name="trackerSettings">
+  <h3>Tracker Ontology</h3>
+  <form role="form" class="trackerSettings">
+    <textarea id="tracker-ontology">{{trackerOntology}}</textarea>
+    <input type="submit" />
+  </form>  
+</template>
+
+<template name="notificationSettings">
+  <h3>Notifications</h3>
+  <form role="form">
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" id="notificationsEnabled" name="notificationsEnabled"
+               checked={{notificationsEnabled}}> Enabled
+      </label>
+    </div>
+  </form>
+  <form>
+    <button data-action="send-notification">Send notification</button>
+  </form>
+</template>

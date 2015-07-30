@@ -5,3 +5,7 @@ Meteor.publish('events', function(){
 Meteor.publish('notificationSettings', function(){
   return NotificationSettings.find({userId: this.userId});
 });
+
+Meteor.publish('trackertrees', function(){
+  return TrackerTrees.find({userId: this.userId});
+});

@@ -1,3 +1,4 @@
+// mutation
 var addFullNames = function(ontology){
   if (!ontology.fullName){
     ontology.fullName = ontology.name; // root
@@ -15,6 +16,13 @@ var addFullNames = function(ontology){
   }
 };
 
+// no mutation
+var withFullNames = function(ontology){
+  var fullNameOntology = clone(ontology);
+  addFullNames(fullNameOntology);
+  return fullNameOntology;
+}
+
 /*
 Inputs:
 slider: 
@@ -22,24 +30,16 @@ slider:
   if levels not given then range and (optionlly) units should be.
 */
 
-var trackerOntology = {
-  name: "Tracker",
-  branches: [
-    {name: "Eat", inputs: [{name: "What", type: "text"}] },
-    {name: "Drink", branches:
-     [{name: "Caffeine", inputs: [{name: "Quantity", type: "slider", range: [0,5], units: "cups"}]},
-      {name: "Alcohol", inputs: [{name: "Quantity", type: "slider", range: [0,10]}]}]},
-    {name: "Mood", inputs: [{name: "Quality", type: "slider", levels:["bad", "ok", "good"]}] },
-    {name: "Twowords", inputs: [{name: "Check spaces", type: "slider", levels:["bad", "ok", "good"]}] }
-  ]
-};
-
-addFullNames(trackerOntology);
-
-
 Template.tracker.helpers({
   branches: function(){
-    return trackerOntology.branches;
+    var tree = TrackerTrees.findOne({userId: Meteor.user()._id});
+    if (!tree){
+      createTrackerOntology();
+      return [];
+    } else {
+      var trackerOntology = withFullNames(tree.json);    
+      return trackerOntology.branches;
+    }
   }
 });
 

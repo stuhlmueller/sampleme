@@ -105,3 +105,16 @@ form.trackerForm {
 input.trackerSubmit {
    margin-bottom: 1.5em;
 }
+
+
+/* Tracker tree settings */
+
+form.trackerSettings textarea {
+   display: block;
+   margin-bottom: 5px;
+    /* max-width: 400px; */
+   width: 100%;
+   font-family: monospace;
+   font-size: 10px;
+   height: 600px;
+}
