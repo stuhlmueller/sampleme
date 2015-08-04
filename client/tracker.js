@@ -65,12 +65,11 @@ Template.trackerInputs.events({
   'submit form': function(e, t) {
     e.preventDefault();
 
-    // get info from all the input elements
-    var event = {
-      type: 'tracker'
-    };
     t.$('.trackerInput').map(
       function(ind, obj){
+        var event = {
+          type: 'tracker'
+        };        
         event.subtype = obj.name;
         if ($(obj).hasClass('slider')){
           event.value = $(obj).slider('getValue');
@@ -78,15 +77,13 @@ Template.trackerInputs.events({
         } else {
           event.value = $(obj).val();
         }
+        console.log('Inserting event:', event)
+        Meteor.call('insertEvent', event, function(error, results){
+          if (error){
+            return alert(error.reason);
+          }
+        });        
       });
-
-    console.log('Inserting event:', event)
-
-    Meteor.call('insertEvent', event, function(error, results){
-      if (error){
-        return alert(error.reason);
-      }
-    });
 
     // Reset everything
     $('.trackerForm').trigger('reset');
