@@ -50,8 +50,7 @@ Template.trackerSettings.helpers({
   trackerOntology: function(){
     var tree = TrackerTrees.findOne({userId: Meteor.user()._id});
     if (!tree){
-      createTrackerOntology();
-      return 'Creating ontology...';
+      return 'Loading trackertree...';
     } else {
       return JSON.stringify(tree.json, null, 2);
     }

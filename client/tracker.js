@@ -34,7 +34,6 @@ Template.tracker.helpers({
   branches: function(){
     var tree = TrackerTrees.findOne({userId: Meteor.user()._id});
     if (!tree){
-      createTrackerOntology();
       return [];
     } else {
       var trackerOntology = withFullNames(tree.json);    
