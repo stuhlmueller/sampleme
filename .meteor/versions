@@ -72,7 +72,7 @@ momentjs:moment@2.10.6
 mongo@1.1.0
 mongo-livedata@1.0.8
 npm-bcrypt@0.7.8_2
-npm-container@1.0.0
+npm-container@1.1.0
 observe-sequence@1.0.6
 ordered-dict@1.0.3
 raix:eventemitter@0.1.3
